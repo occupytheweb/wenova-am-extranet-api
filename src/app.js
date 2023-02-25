@@ -8,7 +8,8 @@ const _ = require("koa-route");
 
 const app = new Koa();
 
-const port = process.env.PORT || 3000;
+const DEFAULT_PORT = 4000;
+const port = process.env.PORT || DEFAULT_PORT;
 
 // prettier-ignore
 app
