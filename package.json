@@ -1,0 +1,25 @@
+{
+  "name": "extranet-api",
+  "version": "0.0.0",
+  "description": "Wenova extranet API",
+  "main": "app.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/occupytheweb/wenova-extranet-api.git"
+  },
+  "author": "Alan Jean <afinegameofnil@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/occupytheweb/wenova-extranet-api/issues"
+  },
+  "homepage": "https://github.com/occupytheweb/wenova-extranet-api#readme",
+  "dependencies": {
+    "koa": "^2.14.1"
+  },
+  "devDependencies": {
+    "mocha": "^10.2.0"
+  }
+}
