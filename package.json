@@ -4,7 +4,9 @@
   "description": "Wenova extranet API",
   "main": "app.js",
   "scripts": {
-    "test": "mocha"
+    "start": "node app.js",
+    "test": "mocha",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -17,9 +19,21 @@
   },
   "homepage": "https://github.com/occupytheweb/wenova-extranet-api#readme",
   "dependencies": {
-    "koa": "^2.14.1"
+    "@koa/cors": "^4.0.0",
+    "dotenv": "^16.0.3",
+    "koa": "^2.14.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-logger": "^3.2.1",
+    "koa-route": "^3.2.0",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
-    "mocha": "^10.2.0"
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "mocha": "^10.2.0",
+    "prettier": "2.8.4"
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --write"
   }
 }
