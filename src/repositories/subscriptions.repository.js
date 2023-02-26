@@ -1,23 +1,38 @@
 let db = require("./subscriptions.json");
 
+const pagination = require("../utils/pagination");
+
 const list = () => db;
 
-const search = (product, distributorId) => {
-  return list()
-    .filter((subscription) => subscription.Id_dist === distributorId)
-    .filter((subscription) => subscription.Produit === product);
+const search = (distributorId, criteria) => {
+  const { product } = criteria;
+
+  const filters = [
+    (subscription) => subscription.Id_dist === distributorId,
+    ...(!!product ? [(subscription) => subscription.Produit === product] : []),
+  ];
+
+  return filters.reduce(
+    (accumulator, filter) => accumulator.filter(filter),
+    list()
+  );
 };
 
-const search = (product, distributorId, page, maxPerPage) => {
-  const matchingSubscriptions = search(product, distributorId);
+const count = (distributorId, criteria) =>
+  search(distributorId, criteria).length;
 
-  const effectivePage = page > 0 ? page : 1;
-  const startIndex = (effectivePage - 1) * maxPerPage;
-  const endIndex = startIndex + maxPerPage;
+const searchPaged = (distributorId, criteria, page, maxPerPage) => {
+  const matchingSubscriptions = search(distributorId, criteria);
+
+  const { startIndex, endIndex } = pagination.getPaginationIndices(
+    page,
+    maxPerPage
+  );
 
   return matchingSubscriptions.slice(startIndex, endIndex);
 };
 
 module.exports = {
-  search,
+  count,
+  searchPaged,
 };
