@@ -22,6 +22,7 @@ app
   .use(
     bodyParser({ enableTypes: ["json"] })
   )
+  .use(controllers.auth.routes())
   .use(controllers.distributors.routes())
   .use(controllers.subscriptions.routes())
   .use(controllers.payments.routes())
