@@ -5,6 +5,7 @@ const logger = require("koa-logger");
 const cors = require("@koa/cors");
 const bodyParser = require("koa-bodyparser");
 
+const controllers = require("./routes");
 const app = new Koa();
 
 const DEFAULT_PORT = 4000;
@@ -12,9 +13,13 @@ const port = process.env.PORT || DEFAULT_PORT;
 
 // prettier-ignore
 app
-    .use(logger())
-    .use(cors())
-    .use(bodyParser());
+  .use(logger())
+  .use(cors())
+  .use(
+    bodyParser({ enableTypes: ["json"] })
+  )
+  .use(controllers.distributors.routes())
+;
 
 app.listen(port);
 
