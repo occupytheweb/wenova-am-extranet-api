@@ -29,7 +29,7 @@
     "koa-bodyparser": "^4.3.0",
     "koa-jwt": "^4.0.4",
     "koa-logger": "^3.2.1",
-    "koa-mysql": "^1.0.3",
+    "mysql2": "^3.1.2",
     "njwt": "^2.0.0"
   },
   "devDependencies": {
