@@ -19,6 +19,16 @@ const authenticateAndGetToken = async (ctx, email, password) => {
   );
 };
 
+const getUserFromAuthenticatedRequest = (ctx) => {
+  const { user } = ctx.state;
+
+  return {
+    userId: user.userId,
+    email: user.email,
+  };
+};
+
 module.exports = {
   authenticateAndGetToken,
+  getUserFromAuthenticatedRequest,
 };
