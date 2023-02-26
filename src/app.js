@@ -24,6 +24,7 @@ app
   )
   .use(controllers.distributors.routes())
   .use(controllers.subscriptions.routes())
+  .use(controllers.payments.routes())
 ;
 
 app.listen(port);
