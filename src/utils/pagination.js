@@ -19,12 +19,36 @@ const getPaginationParams = (ctx) => {
     ? maxPerPage
     : config.maxItemsPerPage;
 
+  const { startIndex, endIndex } = getPaginationIndices(
+    effectivePage,
+    effectiveMaxPerPage
+  );
+
   return {
     page: effectivePage,
     maxPerPage: effectiveMaxPerPage,
+    startIndex,
+    endIndex,
   };
 };
 
+const getPaginationIndices = (page, maxPerPage) => ({
+  startIndex: (page - 1) * maxPerPage,
+
+  get endIndex() {
+    return this.startIndex + maxPerPage;
+  },
+});
+
+const getPaginationMetadata = (count, page, maxPerPage) => ({
+  page,
+  count,
+  maxPerPage,
+  totalPages: Math.ceil(count / maxPerPage),
+});
+
 module.exports = {
   getPaginationParams,
+  getPaginationIndices,
+  getPaginationMetadata,
 };
