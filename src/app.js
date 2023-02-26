@@ -15,6 +15,8 @@ const app = new Koa();
 
 const { port } = config;
 
+require("./services/db.service").init();
+
 // prettier-ignore
 app
   .use(errorHandler)
