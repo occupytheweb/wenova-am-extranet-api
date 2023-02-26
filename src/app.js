@@ -23,6 +23,7 @@ app
     bodyParser({ enableTypes: ["json"] })
   )
   .use(controllers.distributors.routes())
+  .use(controllers.subscriptions.routes())
 ;
 
 app.listen(port);

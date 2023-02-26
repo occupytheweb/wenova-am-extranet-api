@@ -1,6 +1,6 @@
 {
   "name": "extranet-api",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Wenova extranet API",
   "main": "src/app.js",
   "scripts": {
