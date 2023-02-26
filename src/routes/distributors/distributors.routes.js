@@ -36,7 +36,8 @@ router.put("/:id", (ctx) => {
     const patchToApply =
       validators.getValidatedPartialDistributorPayloadIfPossible(ctx);
 
-    ctx.body = distributors.update(id, patchToApply);
+    distributors.update(id, patchToApply);
+    ctx.status = 202;
   } else {
     ctx.status = 404;
   }

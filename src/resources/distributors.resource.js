@@ -18,7 +18,7 @@ const update = (id, patchToApply) => {
     ...effectivePatchPayload,
   };
 
-  return repository.update(id, sanitizedNewRepresentation);
+  repository.update(id, sanitizedNewRepresentation);
 };
 
 const create = (payload) => {
