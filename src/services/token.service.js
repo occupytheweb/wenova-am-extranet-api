@@ -1,7 +1,7 @@
 const nJwt = require("njwt");
 const { encodedJwtSigningKey } = require("../config");
 
-const signingKey = Buffer.from(encodedJwtSigningKey);
+const jwtSigningKey = Buffer.from(encodedJwtSigningKey);
 
 const resourceServer = "wenova-extranet.api";
 
@@ -18,9 +18,10 @@ const getTokenForUser = (ctx, email, userId) => {
     userId,
   };
 
-  return nJwt.create(claims, signingKey);
+  return nJwt.create(claims, jwtSigningKey);
 };
 
 module.exports = {
+  jwtSigningKey,
   getTokenForUser,
 };
