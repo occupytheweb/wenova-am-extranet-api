@@ -8,6 +8,7 @@ const bodyParser = require("koa-bodyparser");
 const config = require("./config");
 
 const errorHandler = require("./middlewares/error-handler");
+const jwtValidator = require("./middlewares/jwt-validator");
 
 const controllers = require("./routes");
 const app = new Koa();
@@ -22,6 +23,7 @@ app
   .use(
     bodyParser({ enableTypes: ["json"] })
   )
+  .use(jwtValidator())
   .use(controllers.auth.routes())
   .use(controllers.distributors.routes())
   .use(controllers.subscriptions.routes())
