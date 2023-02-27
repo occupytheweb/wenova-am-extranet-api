@@ -20,6 +20,11 @@ rules:
     - error
     - consistent
   global-require: off
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies:
+        - "tests/**.js"
+        - "scripts/**.js"
   no-console: off
   no-extra-boolean-cast: off
   no-multi-spaces:
