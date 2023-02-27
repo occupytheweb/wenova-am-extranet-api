@@ -1,13 +1,22 @@
 const Joi = require("joi");
 
 const validateAndGetSearchCriteria = (ctx) => {
-  const potentialYear = ctx.request.query.product;
-  const { err, value } = Joi.number().required().validate(potentialYear);
+  const { year } = ctx.request.query;
+
+  Joi.assert(
+    year,
+    Joi
+      .string()
+      .min(4)
+      .pattern(/[1,2]\d{3}/),
+    "'year' is invalid"
+  );
 
   return {
-    ...(!err ? { year: value } : {}),
+    ...(!!year ? { year } : {}),
   };
 };
+
 
 module.exports = {
   validateAndGetSearchCriteria,
