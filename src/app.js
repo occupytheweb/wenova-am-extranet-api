@@ -11,12 +11,11 @@ const errorHandler = require("./middlewares/error-handler");
 const jwtValidator = require("./middlewares/jwt-validator");
 
 const controllers = require("./routes");
-const app = new Koa();
 
-const { port } = config;
 
 require("./services/db.service").init();
 
+const app = new Koa();
 // prettier-ignore
 app
   .use(errorHandler)
@@ -32,6 +31,7 @@ app
   .use(controllers.payments.routes())
 ;
 
+const { port } = config;
 app.listen(port);
 
 console.log(`Listening on port ${port}`);

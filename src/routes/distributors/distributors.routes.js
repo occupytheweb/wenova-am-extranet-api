@@ -1,9 +1,9 @@
 const Router = require("@koa/router");
 
 const distributors = require("../../resources/distributors.resource");
-const validators = require("./distributors.validators");
+const validators   = require("./distributors.validators");
+const authService  = require("../../services/auth.service");
 
-const authService = require("../../services/auth.service");
 
 const router = new Router({
   prefix: "/distributors",
@@ -26,6 +26,7 @@ router.get("/me", async (ctx) => {
 
   if (!!potentialDistributor) {
     ctx.body = potentialDistributor;
+
   } else {
     ctx.status = 404;
   }
@@ -36,14 +37,15 @@ router.put("/me", async (ctx) => {
   const potentialDistributor = distributors.getById(userId);
 
   if (!!potentialDistributor) {
-    const patchToApply =
-      validators.getValidatedPartialDistributorPayloadIfPossible(ctx);
+    const patchToApply = validators.getValidatedPartialDistributorPayloadIfPossible(ctx);
 
     await distributors.update(userId, patchToApply);
     ctx.status = 202;
+
   } else {
     ctx.status = 404;
   }
 });
+
 
 module.exports = router;

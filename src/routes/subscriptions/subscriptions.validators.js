@@ -1,5 +1,6 @@
 const Joi = require("joi");
 
+
 const validateAndGetSearchCriteria = (ctx) => {
   const potentialProduct = ctx.request.query.product;
   const { err, value } = Joi.string().required().validate(potentialProduct);
@@ -8,6 +9,7 @@ const validateAndGetSearchCriteria = (ctx) => {
     ...(!err ? { product: value } : {}),
   };
 };
+
 
 module.exports = {
   validateAndGetSearchCriteria,

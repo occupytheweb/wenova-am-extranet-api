@@ -2,6 +2,7 @@ const mysql = require("mysql2/promise");
 
 const { dbConnectionProperties } = require("../config");
 
+
 let pool;
 
 const init = () => {
@@ -12,9 +13,11 @@ const init = () => {
     console.info("[DB] Testing connection...");
     pool
       .query("SELECT 1 as healthcheck")
-      .then((_) => {
-        console.info("[DB] Connection pool initialized.");
-      })
+      .then(
+        () => {
+          console.info("[DB] Connection pool initialized.");
+        }
+      )
       .catch((error) => {
         console.error("[DB] Failed to connect to db.");
 
@@ -26,6 +29,7 @@ const init = () => {
 };
 
 const getPool = () => pool;
+
 
 module.exports = {
   init,

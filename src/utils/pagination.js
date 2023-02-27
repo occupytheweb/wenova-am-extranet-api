@@ -2,10 +2,18 @@ const Joi = require("joi");
 
 const config = require("../config");
 
+
+const getPaginationIndices = (page, maxPerPage) => ({
+  startIndex: (page - 1) * maxPerPage,
+
+  get endIndex() {
+    return this.startIndex + maxPerPage;
+  },
+});
+
 const getPaginationParams = (ctx) => {
   const potentialPage = ctx.request.query.page || 1;
-  const potentialMaxPerPage =
-    ctx.request.query.maxPerPage || config.maxItemsPerPage;
+  const potentialMaxPerPage = ctx.request.query.maxPerPage || config.maxItemsPerPage;
 
   const { err: pageError, value: page } = Joi.number()
     .min(1)
@@ -32,20 +40,13 @@ const getPaginationParams = (ctx) => {
   };
 };
 
-const getPaginationIndices = (page, maxPerPage) => ({
-  startIndex: (page - 1) * maxPerPage,
-
-  get endIndex() {
-    return this.startIndex + maxPerPage;
-  },
-});
-
 const getPaginationMetadata = (count, page, maxPerPage) => ({
   page,
   count,
   maxPerPage,
   totalPages: Math.ceil(count / maxPerPage),
 });
+
 
 module.exports = {
   getPaginationParams,

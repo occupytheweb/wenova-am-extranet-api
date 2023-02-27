@@ -1,6 +1,12 @@
+const auth          = require("./auth/auth.routes");
+const distributors  = require("./distributors/distributors.routes");
+const subscriptions = require("./subscriptions/subscriptions.routes");
+const payments      = require("./payments/payments.routes");
+
+
 module.exports = {
-  auth: require("./auth/auth.routes"),
-  distributors: require("./distributors/distributors.routes"),
-  subscriptions: require("./subscriptions/subscriptions.routes"),
-  payments: require("./payments/payments.routes"),
+  auth,
+  distributors,
+  subscriptions,
+  payments,
 };

@@ -3,13 +3,6 @@ const repository = require("../repositories/subscriptions.repository");
 const config = require("../config");
 const pagination = require("../utils/pagination");
 
-const searchByDistributor = (
-  distributorId,
-  page = 1,
-  maxPerPage = config.maxItemsPerPage
-) => {
-  return search(distributorId, {}, page, maxPerPage);
-};
 
 const search = (
   distributorId,
@@ -25,6 +18,13 @@ const search = (
     ...pagination.getPaginationMetadata(count, page, maxPerPage),
   };
 };
+
+const searchByDistributor = (
+  distributorId,
+  page = 1,
+  maxPerPage = config.maxItemsPerPage
+) => search(distributorId, {}, page, maxPerPage);
+
 
 module.exports = {
   searchByDistributor,

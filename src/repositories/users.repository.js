@@ -4,19 +4,13 @@ const distributors = require("./distributors.repository");
 
 const list = () => db;
 
-const findById = (distributorId) => {
-  return list().find((user) => user.id_dist === distributorId);
-};
+const findById = (distributorId) => list().find((user) => user.id_dist === distributorId);
 
-const findByEmail = (email) => {
-  return distributors
-    .findByEmail(email)
-    .then((distributor) =>
-      !!distributor
-        ? list().find((user) => user.id_dist === distributor.id_dist)
-        : null
-    );
-};
+const findByEmail = (email) => distributors
+  .findByEmail(email)
+  .then((distributor) => (!!distributor
+    ? list().find((user) => user.id_dist === distributor.id_dist)
+    : null));
 
 module.exports = {
   findById,

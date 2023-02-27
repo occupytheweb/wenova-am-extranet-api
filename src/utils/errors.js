@@ -11,10 +11,21 @@ const wellKnownErrors = {
   },
 };
 
-const isWellKnownErrorMessage = (message) =>
-  Object.values(wellKnownErrors).some((error) => error.title === message);
-const getErrorDetailsByMessage = (message) =>
-  Object.values(wellKnownErrors).find((error) => error.title === message);
+const isWellKnownErrorMessage = (message) => Object
+  .values(wellKnownErrors)
+  .some(
+    (error) => error.title === message
+  )
+;
+
+const getErrorDetailsByMessage = (message) => Object
+  .values(wellKnownErrors)
+  .find(
+    (error) => error.title === message
+  )
+;
+
+
 module.exports = {
   wellKnownErrors,
   isWellKnownErrorMessage,

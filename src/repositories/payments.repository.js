@@ -1,6 +1,7 @@
-let db = require("./payments.json");
+const db = require("./payments.json");
 
 const pagination = require("../utils/pagination");
+
 
 const list = () => db;
 
@@ -18,8 +19,7 @@ const search = (distributorId, criteria) => {
   );
 };
 
-const count = (distributorId, criteria) =>
-  search(distributorId, criteria).length;
+const count = (distributorId, criteria) => search(distributorId, criteria).length;
 
 const searchPaged = (distributorId, criteria, page, maxPerPage) => {
   const matchingPayments = search(distributorId, criteria);
@@ -31,6 +31,7 @@ const searchPaged = (distributorId, criteria, page, maxPerPage) => {
 
   return matchingPayments.slice(startIndex, endIndex);
 };
+
 
 module.exports = {
   count,

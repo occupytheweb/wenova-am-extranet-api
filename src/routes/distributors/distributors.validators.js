@@ -1,9 +1,14 @@
 const Joi = require("joi");
 
+
 const getValidatedIdFromRequestParamsIfPossible = (ctx) => {
   const potentialId = ctx.params.id;
 
-  Joi.assert(potentialId, Joi.number().required(), "'id' should be a number");
+  Joi.assert(
+    potentialId,
+    Joi.number().required(),
+    "'id' should be a number"
+  );
 
   return +potentialId;
 };
@@ -42,6 +47,7 @@ const getValidatedPartialDistributorPayloadIfPossible = (ctx) => {
 
   return potentialDistributor;
 };
+
 
 module.exports = {
   getValidatedIdFromRequestParamsIfPossible,

@@ -1,4 +1,4 @@
-let db = require("./subscriptions.json");
+const db = require("./subscriptions.json");
 
 const pagination = require("../utils/pagination");
 
@@ -18,8 +18,7 @@ const search = (distributorId, criteria) => {
   );
 };
 
-const count = (distributorId, criteria) =>
-  search(distributorId, criteria).length;
+const count = (distributorId, criteria) => search(distributorId, criteria).length;
 
 const searchPaged = (distributorId, criteria, page, maxPerPage) => {
   const matchingSubscriptions = search(distributorId, criteria);
