@@ -3,23 +3,26 @@ const Router = require("@koa/router");
 const distributors = require("../../resources/distributors.resource");
 const validators = require("./distributors.validators");
 
+const authService = require("../../services/auth.service");
+
 const router = new Router({
   prefix: "/distributors",
 });
 
-router.get("/", (ctx) => {
-  ctx.body = distributors.list();
+router.get("/", async (ctx) => {
+  ctx.body = await distributors.list();
 });
 
-router.head("/:id", (ctx) => {
-  const id = validators.getValidatedIdFromRequestParamsIfPossible(ctx);
+router.head("/:email", async (ctx) => {
+  const email = validators.getValidatedEmailFromRequestParamsIfPossible(ctx);
 
-  ctx.status = distributors.exists(id) ? 200 : 404;
+  ctx.status = (await distributors.existsByEmail(email)) ? 200 : 404;
 });
 
-router.get("/:id", (ctx) => {
-  const id = validators.getValidatedIdFromRequestParamsIfPossible(ctx);
-  const potentialDistributor = distributors.getById(id);
+router.get("/me", async (ctx) => {
+  const { userId } = authService.getUserFromAuthenticatedRequest(ctx);
+
+  const potentialDistributor = await distributors.getById(userId);
 
   if (!!potentialDistributor) {
     ctx.body = potentialDistributor;
@@ -28,25 +31,19 @@ router.get("/:id", (ctx) => {
   }
 });
 
-router.put("/:id", (ctx) => {
-  const id = validators.getValidatedIdFromRequestParamsIfPossible(ctx);
-  const potentialDistributor = distributors.getById(id);
+router.put("/me", async (ctx) => {
+  const { userId } = authService.getUserFromAuthenticatedRequest(ctx);
+  const potentialDistributor = distributors.getById(userId);
 
   if (!!potentialDistributor) {
     const patchToApply =
       validators.getValidatedPartialDistributorPayloadIfPossible(ctx);
 
-    distributors.update(id, patchToApply);
+    await distributors.update(userId, patchToApply);
     ctx.status = 202;
   } else {
     ctx.status = 404;
   }
-});
-
-router.post("/", (ctx) => {
-  const distributorToCreate = ctx.request.body;
-  ctx.status = 201;
-  ctx.body = distributors.create(distributorToCreate);
 });
 
 module.exports = router;

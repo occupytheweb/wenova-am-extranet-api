@@ -8,6 +8,18 @@ const getValidatedIdFromRequestParamsIfPossible = (ctx) => {
   return +potentialId;
 };
 
+const getValidatedEmailFromRequestParamsIfPossible = (ctx) => {
+  const potentialEmail = ctx.params.email;
+
+  Joi.assert(
+    potentialEmail,
+    Joi.string().email().required(),
+    "'email' invalid"
+  );
+
+  return potentialEmail;
+};
+
 const distributorOverviewSchema = Joi.object({
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
@@ -33,5 +45,6 @@ const getValidatedPartialDistributorPayloadIfPossible = (ctx) => {
 
 module.exports = {
   getValidatedIdFromRequestParamsIfPossible,
+  getValidatedEmailFromRequestParamsIfPossible,
   getValidatedPartialDistributorPayloadIfPossible,
 };

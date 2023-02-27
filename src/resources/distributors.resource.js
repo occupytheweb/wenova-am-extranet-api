@@ -2,7 +2,9 @@ const repository = require("../repositories/distributors.repository");
 
 const list = () => repository.list();
 
-const exists = (id) => repository.exists(id);
+const existsById = (id) => repository.existsById(id);
+
+const existsByEmail = (email) => repository.existsByEmail(email);
 
 const getById = (id) => {
   return repository.getById(id);
@@ -49,8 +51,8 @@ const getEffectiveDistributorPatchPayload = (distributorPatchPayload) => {
 
 module.exports = {
   list,
-  exists,
+  existsById,
+  existsByEmail,
   getById,
   update,
-  create,
 };
