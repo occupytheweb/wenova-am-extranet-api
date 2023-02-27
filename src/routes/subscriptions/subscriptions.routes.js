@@ -10,13 +10,20 @@ const router = new Router({
   prefix: "/subscriptions",
 });
 
-router.get("/", (ctx) => {
+router.get("/", async (ctx) => {
   const { userId: distributorId } = authService.getUserFromAuthenticatedRequest(ctx);
 
   const criteria = validators.validateAndGetSearchCriteria(ctx);
   const { page, maxPerPage } = pagination.getPaginationParams(ctx);
 
-  ctx.body = subscriptions.search(distributorId, criteria, page, maxPerPage);
+  ctx.body = await subscriptions
+    .search(
+      distributorId,
+      criteria,
+      page,
+      maxPerPage
+    )
+  ;
 });
 
 

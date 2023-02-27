@@ -1,6 +1,5 @@
 const repository = require("../repositories/subscriptions.repository");
-
-const config = require("../config");
+const config     = require("../config");
 const pagination = require("../utils/pagination");
 
 
@@ -9,15 +8,26 @@ const search = (
   criteria,
   page = 1,
   maxPerPage = config.maxItemsPerPage
-) => {
-  const data = repository.searchPaged(distributorId, {}, page, maxPerPage);
-  const count = repository.count(distributorId, {});
-
-  return {
-    data,
-    ...pagination.getPaginationMetadata(count, page, maxPerPage),
-  };
-};
+) => Promise
+  .all(
+    [
+      repository.searchPaged(distributorId, criteria, page, maxPerPage),
+      repository.getTotalNumberOfRows(distributorId, criteria),
+    ]
+  )
+  .then(
+    ([data, count]) => ({
+      data,
+      paginationMetadata: {
+        ...pagination.getPaginationMetadata(
+          count,
+          page,
+          maxPerPage
+        ),
+      },
+    })
+  )
+;
 
 const searchByDistributor = (
   distributorId,
