@@ -1,24 +1,22 @@
 const userRepository = require("../repositories/users.repository");
 const tokenService = require("./token.service");
 
-const authenticate = (email, password) => {
-  return new Promise((resolve, reject) => {
-    const user = userRepository.findByEmail(email);
+const { wellKnownErrors } = require("../utils/errors");
 
+const authenticate = (email, password) => {
+  return userRepository.findByEmail(email).then((user) => {
     if (!!user) {
-      resolve(user);
+      return user;
     } else {
-      reject(new Error("Invalid credentials"));
+      throw new Error(wellKnownErrors.invalidCredentials.title);
     }
   });
 };
 
-const authenticateAndGetToken = async (ctx, email, password) => {
-  return authenticate(email, password).then((user) =>
+const authenticateAndGetToken = (ctx, email, password) =>
+  authenticate(email, password).then((user) =>
     tokenService.getTokenForUser(ctx, email, user.id_dist)
   );
-};
-
 const getUserFromAuthenticatedRequest = (ctx) => {
   const { user } = ctx.state;
 

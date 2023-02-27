@@ -9,11 +9,13 @@ const findById = (distributorId) => {
 };
 
 const findByEmail = (email) => {
-  const potentialDistributor = distributors.findByEmail(email);
-
-  if (!!potentialDistributor) {
-    return list().find((user) => user.id_dist === potentialDistributor.id_dist);
-  }
+  return distributors
+    .findByEmail(email)
+    .then((distributor) =>
+      !!distributor
+        ? list().find((user) => user.id_dist === distributor.id_dist)
+        : null
+    );
 };
 
 module.exports = {

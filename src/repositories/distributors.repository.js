@@ -1,40 +1,72 @@
-let db = require("./distributors.json");
+const SQL = require("sql-template-strings");
 
-const list = () => db;
+const dbService = require("../services/db.service");
 
-const exists = (id) => !!getById(id);
+const db = () => dbService.getPool();
 
-const getById = (id) => db.find((distributor) => distributor.id_dist === id);
+const list = () =>
+  db()
+    .query(SQL`SELECT * from distributeurs`)
+    .then(([rows, fields]) => rows);
+const existsById = (id) => getById(id).then((distributor) => !!distributor);
 
-const findByEmail = (email) =>
-  db.find((distributor) => distributor.email_signataire === email);
+const existsByEmail = (email) =>
+  findByEmail(email).then((distributor) => !!distributor);
+
+const getById = (id) =>
+  db()
+    .query(
+      SQL`
+      SELECT * FROM distributeurs
+      WHERE id_dist = ${id}
+    `
+    )
+    .then(([rows, fields]) => rows.find((_) => true));
+const findByEmail = (email) => {
+  return db()
+    .query(
+      SQL`
+        SELECT * from distributeurs
+        WHERE email_signataire = ${email}
+      `
+    )
+    .then(([rows, fields]) => rows.find((_) => true));
+};
 
 const update = (id, sanitizedNewRepresentation) => {
-  db.splice(
-    db.findIndex((distributor) => distributor.id_dist === id),
-    1,
-    sanitizedNewRepresentation
+  return db().query(
+    getDistributorUpdateStatement(id, sanitizedNewRepresentation)
   );
 };
 
-const create = (sanitizedNewDistributor) => {
-  const [...lastId] = db;
+const getDistributorUpdateStatement = (id, sanitizedNewRepresentation) => {
+  const queryPrefix = SQL`
+    UPDATE distributeurs
+    SET
+  `;
 
-  const newDistributor = {
-    id: lastId + 1,
-    ...sanitizedNewDistributor,
-  };
+  const [lastProperty, ...properties] = Object.entries(
+    sanitizedNewRepresentation
+  ).reverse();
+  const [lastKey, lastValue] = lastProperty;
 
-  db = [...db, newDistributor];
-
-  return newDistributor;
+  const queryAssignments = properties
+    .reduce(
+      (accumulator, [key, value]) =>
+        accumulator.append(` ${key} = `).append(SQL` ${value}, `),
+      SQL``
+    )
+    .append(` ${lastKey} = `)
+    .append(SQL` ${lastValue} `);
+  return queryPrefix.append(queryAssignments).append(SQL`
+      WHERE id_dist = ${id}`);
 };
 
 module.exports = {
   list,
-  exists,
+  existsById,
+  existsByEmail,
   getById,
   findByEmail,
   update,
-  create,
 };
