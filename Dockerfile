@@ -38,7 +38,6 @@ WORKDIR /app
 
 COPY --chown="node:node" --from=deps /build/node_modules node_modules
 COPY --chown="node:node" package.json                    .
-COPY --chown="node:node" .env                            .
 
 
 ENTRYPOINT [ "yarn" ]
