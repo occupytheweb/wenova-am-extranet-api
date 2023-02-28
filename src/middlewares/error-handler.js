@@ -27,7 +27,7 @@ module.exports = async (ctx, next) => {
       ctx.status = err.statusCode || err.status || 500;
       ctx.body = {
         statusCode: ctx.status,
-        message: err.message,
+        message:    err.message,
       };
     }
   }

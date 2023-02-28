@@ -1,13 +1,13 @@
 const wellKnownErrors = {
   invalidCredentials: {
-    title: "Invalid credentials",
+    title:      "Invalid credentials",
     statusCode: 401,
-    type: "authentication",
+    type:       "authentication",
   },
   badRequest: {
-    title: "Bad request",
+    title:      "Bad request",
     statusCode: 400,
-    type: "validation",
+    type:       "validation",
   },
 };
 

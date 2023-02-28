@@ -27,14 +27,14 @@ const getValidatedEmailFromRequestParamsIfPossible = (ctx) => {
 
 const distributorOverviewSchema = Joi.object({
   firstName: Joi.string().required(),
-  lastName: Joi.string().required(),
-  email: Joi.string().required(),
-  address: Joi.string().required(),
+  lastName:  Joi.string().required(),
+  email:     Joi.string().required(),
+  address:   Joi.string().required(),
 });
 
 const distributorBillingSchema = Joi.object({
   billingEmail: Joi.string().required(),
-  iban: Joi.string().required(),
+  iban:         Joi.string().required(),
 });
 
 const getValidatedPartialDistributorPayloadIfPossible = (ctx) => {

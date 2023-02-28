@@ -33,7 +33,7 @@ const getPaginationParams = (ctx) => {
   );
 
   return {
-    page: effectivePage,
+    page:       effectivePage,
     maxPerPage: effectiveMaxPerPage,
     startIndex,
     endIndex,

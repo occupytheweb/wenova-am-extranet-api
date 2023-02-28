@@ -30,7 +30,7 @@ const getUserFromAuthenticatedRequest = (ctx) => {
 
   return {
     userId: user.userId,
-    email: user.email,
+    email:  user.email,
   };
 };
 

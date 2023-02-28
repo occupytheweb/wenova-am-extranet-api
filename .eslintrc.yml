@@ -25,6 +25,10 @@ rules:
     - devDependencies:
         - "tests/**.js"
         - "scripts/**.js"
+  key-spacing:
+    - error
+    - mode: minimum
+      align: value
   no-console: off
   no-extra-boolean-cast: off
   no-multi-spaces:
