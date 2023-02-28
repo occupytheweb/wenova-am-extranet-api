@@ -1,5 +1,6 @@
 const userRepository = require('../repositories/users.repository');
 const passwords      = require('../utils/passwords');
+const authService    = require("./auth.service");
 
 
 const seedUsers = async () => {
@@ -41,6 +42,24 @@ const seedUsers = async () => {
 };
 
 
+const changePassword = (userId, currentPassword, newPassword) => userRepository.findById(userId)
+  .then(
+    (user) => authService.authenticateUser(
+      user,
+      currentPassword
+    )
+  )
+  .then(
+    (sink) => passwords
+      .hashPlaintextPassword(newPassword)
+      .then(
+        (newPasswordHash) => userRepository
+          .updateUserPassword(userId, newPasswordHash)
+      )
+  );
+
+
 module.exports = {
   seedUsers,
+  changePassword,
 };

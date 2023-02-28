@@ -26,6 +26,7 @@ app
   .use(controllers.distributors.routes())
   .use(controllers.subscriptions.routes())
   .use(controllers.payments.routes())
+  .use(controllers.users.routes())
 ;
 
 require("./services/db.service")
