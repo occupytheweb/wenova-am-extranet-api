@@ -1,5 +1,6 @@
 const userRepository = require("../repositories/users.repository");
 const tokenService   = require("./token.service");
+const passwords      = require("../utils/passwords");
 
 const { wellKnownErrors } = require("../utils/errors");
 
@@ -7,12 +8,18 @@ const { wellKnownErrors } = require("../utils/errors");
 const authenticate = (email, password) => userRepository
   .findByEmail(email)
   .then(
-    (user) => {
-      if (!!user) {
-        return user;
-      }
-      throw new Error(wellKnownErrors.invalidCredentials.title);
-    }
+    (user) => (!!user
+      ? passwords
+        .plaintextPasswordMatchesStoredHash(
+          password,
+          user.hashedPassword
+        )
+        .then(
+          (result) => (!!result
+            ? result
+            : Promise.reject(new Error(wellKnownErrors.invalidCredentials.title)))
+        )
+      : Promise.reject(new Error(wellKnownErrors.invalidCredentials.title)))
   )
 ;
 
