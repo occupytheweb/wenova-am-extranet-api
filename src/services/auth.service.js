@@ -16,15 +16,18 @@ const authenticate = (email, password) => userRepository
   )
 ;
 
+
 const authenticateAndGetToken = (
   ctx,
   email,
   password
 ) => authenticate(email, password)
   .then(
-    (user) => tokenService.getTokenForUser(ctx, email, user.id_dist)
+    (user) => tokenService.getTokenForUser(ctx, email, user.id)
   )
 ;
+
+
 const getUserFromAuthenticatedRequest = (ctx) => {
   const { user } = ctx.state;
 

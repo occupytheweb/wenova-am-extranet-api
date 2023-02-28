@@ -3,11 +3,6 @@ const passwords      = require('../utils/passwords');
 
 
 const seedUsers = async () => {
-  const transformUserToMinimalRepresentation = (user) => ({
-    id:        user.id_dist,
-    firstName: user.first_name,
-    lastName:  user.last_name,
-  });
   const userCreationPayloadFromRepresentation = async (user) => ({
     ...user,
     passwordHash: await passwords.generateInitialPasswordHash(
@@ -27,7 +22,6 @@ const seedUsers = async () => {
     )
     .then(
       (users) => users
-        .map(transformUserToMinimalRepresentation)
         .map(userCreationPayloadFromRepresentation)
     )
     .then(

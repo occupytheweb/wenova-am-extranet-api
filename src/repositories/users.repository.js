@@ -7,10 +7,28 @@ const distributors = require("./distributors.repository");
 const db = () => dbService.getPool();
 
 
+const userMapper = (dbRepresentation) => ({
+  id:               dbRepresentation.id_dist,
+  hashedPassword:   dbRepresentation.password_hash,
+  creationTime:     dbRepresentation.creation_time,
+  modificationTime: dbRepresentation.modification_time,
+  ...(
+    !!dbRepresentation.first_name
+      ? { firstName: dbRepresentation.first_name }
+      : {}
+  ),
+  ...(
+    !!dbRepresentation.last_name
+      ? { lastName: dbRepresentation.last_name }
+      : {}
+  ),
+});
+
+
 const list = () => db()
   .query(SQL`SELECT * FROM users`)
   .then(
-    ([rows]) => rows
+    ([rows]) => rows.map(userMapper)
   )
 ;
 
@@ -23,7 +41,9 @@ const findById = (distributorId) => db()
     `
   )
   .then(
-    ([rows]) => rows.find(() => true)
+    ([rows]) => rows
+      .map(userMapper)
+      .find(() => true)
   )
 ;
 
@@ -51,7 +71,7 @@ const searchMissingUsers = () => db()
     `
   )
   .then(
-    ([rows]) => rows
+    ([rows]) => rows.map(userMapper)
   )
 ;
 
