@@ -1,19 +1,16 @@
 require("dotenv").config();
 
-const Koa = require("koa");
-const logger = require("koa-logger");
-const cors = require("@koa/cors");
+const Koa        = require("koa");
+const logger     = require("koa-logger");
+const cors       = require("@koa/cors");
 const bodyParser = require("koa-bodyparser");
 
-const config = require("./config");
-
+const config       = require("./config");
+const controllers  = require("./routes");
 const errorHandler = require("./middlewares/error-handler");
 const jwtValidator = require("./middlewares/jwt-validator");
+const userService  = require("./services/users.service");
 
-const controllers = require("./routes");
-
-
-require("./services/db.service").init();
 
 const app = new Koa();
 // prettier-ignore
@@ -31,7 +28,17 @@ app
   .use(controllers.payments.routes())
 ;
 
-const { port } = config;
-app.listen(port);
+require("./services/db.service")
+  .init()
+  .then(
+    () => userService.seedUsers()
+  )
+  .then(
+    (sink) => {
+      app.listen(config.port);
+      console.log(`Listening on port ${config.port}`);
 
-console.log(`Listening on port ${port}`);
+      return sink;
+    }
+  )
+;

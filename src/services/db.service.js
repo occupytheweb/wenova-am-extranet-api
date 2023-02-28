@@ -11,7 +11,7 @@ const init = () => {
     pool = mysql.createPool(dbConnectionProperties);
 
     console.info("[DB] Testing connection...");
-    pool
+    return pool
       .query("SELECT 1 as healthcheck")
       .then(
         () => {
@@ -23,9 +23,9 @@ const init = () => {
 
         throw error;
       });
-  } else {
-    console.error("Connection pool already initialized");
   }
+
+  throw new Error("Connection pool already initialized");
 };
 
 const getPool = () => pool;
