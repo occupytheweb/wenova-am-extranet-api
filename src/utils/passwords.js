@@ -47,6 +47,7 @@ const passwordIsInitialPassword = (
 module.exports = {
   hashPlaintextPassword,
   plaintextPasswordMatchesStoredHash,
+  generateInitialPassword,
   generateInitialPasswordHash,
   passwordIsInitialPassword,
 };

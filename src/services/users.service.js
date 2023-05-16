@@ -73,7 +73,19 @@ const findConsolidatedUser = (userId) => distributorRepository.getById(userId)
 ;
 
 
+const userHasInitialPassword = (userId) => findConsolidatedUser(userId)
+  .then(
+    (user) => passwords.passwordIsInitialPassword(
+      user.firstName,
+      user.lastName,
+      user.hashedPassword
+    )
+  )
+;
+
+
 module.exports = {
   seedUsers,
   changePassword,
+  userHasInitialPassword,
 };
