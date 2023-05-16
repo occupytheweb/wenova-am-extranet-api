@@ -120,6 +120,7 @@ const bulkCreate = (representations) => {
 
 
 module.exports = {
+  userMapper,
   list,
   findById,
   findByEmail,
