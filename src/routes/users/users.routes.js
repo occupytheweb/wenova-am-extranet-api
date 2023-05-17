@@ -8,7 +8,7 @@ const router = new Router({
   prefix: "/users",
 });
 
-router.put("/me", async (ctx) => {
+router.put("/me/password", async (ctx) => {
   const credentials = validators.getValidatedCredentialsPayload(ctx);
   const {
     currentPassword,
