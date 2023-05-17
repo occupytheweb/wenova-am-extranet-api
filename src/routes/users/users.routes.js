@@ -25,4 +25,13 @@ router.put("/me/password", async (ctx) => {
 });
 
 
+router.get("/me/password/change-status", async (ctx) => {
+  const { userId } = authService.getUserFromAuthenticatedRequest(ctx);
+
+  ctx.body = {
+    isInitialPassword: await userService.userHasInitialPassword(userId),
+  };
+});
+
+
 module.exports = router;
