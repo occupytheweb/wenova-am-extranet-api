@@ -84,8 +84,26 @@ const userHasInitialPassword = (userId) => findConsolidatedUser(userId)
 ;
 
 
+const changeInitialPassword = (userId, newPassword) => findConsolidatedUser(userId)
+  .then(
+    (user) => passwords.generateInitialPassword(
+      user.firstName,
+      user.lastName
+    )
+  )
+  .then(
+    (initialPassword) => changePassword(
+      userId,
+      initialPassword,
+      newPassword
+    )
+  )
+;
+
+
 module.exports = {
   seedUsers,
   changePassword,
   userHasInitialPassword,
+  changeInitialPassword,
 };
