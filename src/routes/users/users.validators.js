@@ -20,6 +20,24 @@ const getValidatedCredentialsPayload = (ctx) => {
 };
 
 
+const getValidatedInitialCredentialsPayload = (ctx) => {
+  const { initialPassword } = ctx.request.body;
+  const payload = {
+    initialPassword,
+  };
+
+  Joi.assert(
+    payload,
+    Joi.object({
+      initialPassword: Joi.string().required(),
+    })
+  );
+
+  return payload;
+};
+
+
 module.exports = {
   getValidatedCredentialsPayload,
+  getValidatedInitialCredentialsPayload,
 };

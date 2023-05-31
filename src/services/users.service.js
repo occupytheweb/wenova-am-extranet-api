@@ -1,6 +1,7 @@
-const userRepository = require('../repositories/users.repository');
-const passwords      = require('../utils/passwords');
-const authService    = require("./auth.service");
+const userRepository        = require('../repositories/users.repository');
+const distributorRepository = require('../repositories/distributors.repository');
+const passwords             = require('../utils/passwords');
+const authService           = require("./auth.service");
 
 
 const seedUsers = async () => {
@@ -59,7 +60,50 @@ const changePassword = (userId, currentPassword, newPassword) => userRepository.
   );
 
 
+const findConsolidatedUser = (userId) => distributorRepository.getById(userId)
+  .then(
+    (distributor) => userRepository.findById(userId)
+      .then(
+        (user) => ({
+          ...userRepository.userMapper(distributor),
+          ...user,
+        })
+      )
+  )
+;
+
+
+const userHasInitialPassword = (userId) => findConsolidatedUser(userId)
+  .then(
+    (user) => passwords.passwordIsInitialPassword(
+      user.firstName,
+      user.lastName,
+      user.hashedPassword
+    )
+  )
+;
+
+
+const changeInitialPassword = (userId, newPassword) => findConsolidatedUser(userId)
+  .then(
+    (user) => passwords.generateInitialPassword(
+      user.firstName,
+      user.lastName
+    )
+  )
+  .then(
+    (initialPassword) => changePassword(
+      userId,
+      initialPassword,
+      newPassword
+    )
+  )
+;
+
+
 module.exports = {
   seedUsers,
   changePassword,
+  userHasInitialPassword,
+  changeInitialPassword,
 };

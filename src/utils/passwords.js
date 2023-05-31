@@ -31,9 +31,23 @@ const generateInitialPasswordHash = (
   )
 );
 
+const passwordIsInitialPassword = (
+  firstName,
+  lastName,
+  hashedPassword
+) => plaintextPasswordMatchesStoredHash(
+  generateInitialPassword(
+    firstName,
+    lastName
+  ),
+  hashedPassword
+);
+
 
 module.exports = {
   hashPlaintextPassword,
   plaintextPasswordMatchesStoredHash,
+  generateInitialPassword,
   generateInitialPasswordHash,
+  passwordIsInitialPassword,
 };
