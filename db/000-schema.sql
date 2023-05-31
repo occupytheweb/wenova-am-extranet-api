@@ -17,23 +17,33 @@ DROP TABLE IF EXISTS `Souscriptions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Souscriptions` (
-    `ID`               int          DEFAULT NULL,
-    `Investisseur`     varchar(255) DEFAULT NULL,
-    `Produit`          varchar(255) DEFAULT NULL,
-    `Montant`          varchar(255) DEFAULT NULL,
-    `Droit d'entrée`   varchar(255) DEFAULT NULL,
-    `DE_WAM`           varchar(255) DEFAULT NULL,
-    `Mode Paiement`    varchar(255) DEFAULT NULL,
-    `Cash_in`          varchar(255) DEFAULT NULL,
-    `Last Modified`    datetime     DEFAULT NULL,
-    `Date BS`          datetime     DEFAULT NULL,
-    `Num ODDO`         int          DEFAULT NULL,
-    `Date d'effet`     datetime     DEFAULT NULL,
-    `Attestation_ODDO` varchar(255) DEFAULT NULL,
-    `attestation`      varchar(255) DEFAULT NULL,
-    `Id_dist`          int          DEFAULT NULL,
-    `Fonds`            varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `﻿Id_Souscription` varchar(255) DEFAULT NULL,
+  `Investisseur` varchar(255) DEFAULT NULL,
+  `Ste` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `Produit` varchar(255) DEFAULT NULL,
+  `Montant` float DEFAULT NULL,
+  `Droit_entree` float DEFAULT NULL,
+  `DE_WAM` float DEFAULT NULL,
+  `Mode_Paiement` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `Cash_in` varchar(255) DEFAULT NULL,
+  `Last_Modified` datetime DEFAULT NULL,
+  `Date_BS` datetime DEFAULT NULL,
+  `Num_ODDO` int DEFAULT NULL,
+  `Date_effet` datetime DEFAULT NULL,
+  `Attestation_ODDO` varchar(255) DEFAULT NULL,
+  `attestation` varchar(255) DEFAULT NULL,
+  `Id_dist` int DEFAULT NULL,
+  `Fonds` varchar(255) DEFAULT NULL,
+  `LetrODDO` int DEFAULT NULL,
+  `LetrDE` int DEFAULT NULL,
+  `AirRecId` varchar(80) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `Id_dist` (`Id_dist`),
+  KEY `AirRecId` (`AirRecId`),
+  KEY `LetrODDO` (`LetrODDO`),
+  KEY `LetrDE` (`LetrDE`)
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
@@ -45,18 +55,22 @@ DROP TABLE IF EXISTS `com_note`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `com_note` (
-    `record_id`   varchar(255) DEFAULT NULL,
-    `note_id`     int          DEFAULT NULL,
-    `description` varchar(255) DEFAULT NULL,
-    `id_dist`     int          DEFAULT NULL,
-    `nom`         varchar(255) DEFAULT NULL,
-    `adresse`     mediumtext,
-    `email_dist`  varchar(255) DEFAULT NULL,
-    `periode`     varchar(255) DEFAULT NULL,
-    `note_date`   datetime     DEFAULT NULL,
-    `total`       double       DEFAULT NULL,
-    `urlPdf`      varchar(255) DEFAULT NULL,
-    `mail_sent`   smallint     DEFAULT NULL
+  `record_id` varchar(255) DEFAULT NULL,
+  `note_id` int NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `id_dist` int DEFAULT NULL,
+  `nom` varchar(255) DEFAULT NULL,
+  `adresse` mediumtext,
+  `email_dist` varchar(255) DEFAULT NULL,
+  `periode` varchar(255) DEFAULT NULL,
+  `note_date` datetime DEFAULT NULL,
+  `total` double DEFAULT NULL,
+  `urlPdf` varchar(255) DEFAULT NULL,
+  `mail_sent` smallint DEFAULT '0',
+  `payment_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`note_id`),
+  UNIQUE KEY `note_id` (`note_id`),
+  KEY `id_dist` (`id_dist`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -69,25 +83,27 @@ DROP TABLE IF EXISTS `distributeurs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `distributeurs` (
-    `id_dist`            int          DEFAULT NULL,
-    `Raison_sociale`     varchar(255) DEFAULT NULL,
-    `Remarque`           mediumtext,
-    `Souscriptions`      mediumtext,
-    `Pdf_convention`     varchar(255) DEFAULT NULL,
-    `email_signataire`   varchar(255) DEFAULT NULL,
-    `email_compta`       varchar(255) DEFAULT NULL,
-    `civ`                varchar(255) DEFAULT NULL,
-    `last_name`          varchar(255) DEFAULT NULL,
-    `first_name`         varchar(255) DEFAULT NULL,
-    `title`              varchar(255) DEFAULT NULL,
-    `capital`            varchar(255) DEFAULT NULL,
-    `address`            varchar(255) DEFAULT NULL,
-    `rcsnb`              varchar(255) DEFAULT NULL,
-    `rcsof`              varchar(255) DEFAULT NULL,
-    `oriasNb`            varchar(255) DEFAULT NULL,
-    `phone`              varchar(255) DEFAULT NULL,
-    `email_notification` varchar(255) DEFAULT NULL,
-    `IBAN`               varchar(50)  DEFAULT NULL
+  `id_dist` int NOT NULL,
+  `Raison_sociale` varchar(255) DEFAULT NULL,
+  `Remarque` mediumtext,
+  `Souscriptions` mediumtext,
+  `Pdf_convention` varchar(255) DEFAULT NULL,
+  `email_signataire` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `email_compta` varchar(255) DEFAULT NULL,
+  `civ` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `first_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `capital` varchar(255) DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `rcsnb` varchar(255) DEFAULT NULL,
+  `rcsof` varchar(255) DEFAULT NULL,
+  `oriasNb` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `email_notification` varchar(255) DEFAULT NULL,
+  `IBAN` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id_dist`),
+  UNIQUE KEY `id_dist` (`id_dist`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

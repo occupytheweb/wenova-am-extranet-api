@@ -1,6 +1,6 @@
 {
   "name": "extranet-api",
-  "version": "0.0.41",
+  "version": "0.0.45",
   "description": "Wenova extranet API",
   "main": "src/app.js",
   "scripts": {
@@ -25,9 +25,9 @@
     "@koa/router": "^12.0.0",
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
-    "joi": "^17.8.3",
+    "joi": "^17.8.4",
     "koa": "^2.14.1",
-    "koa-bodyparser": "^4.3.0",
+    "koa-bodyparser": "^4.4.0",
     "koa-jwt": "^4.0.4",
     "koa-logger": "^3.2.1",
     "mysql2": "^3.2.0",
