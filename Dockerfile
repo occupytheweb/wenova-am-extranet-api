@@ -8,6 +8,8 @@ ARG YARN_CACHE_FOLDER
 
 ENV YARN_CACHE_FOLDER="${YARN_CACHE_FOLDER}"
 
+RUN corepack enable \
+ && corepack prepare yarn@stable --activate
 
 USER node
 WORKDIR /build
@@ -16,8 +18,7 @@ WORKDIR /build
 COPY --chown="node:node" package.json .
 
 
-RUN --mount=type=cache,uid=1000,gid=1000,target=node_modules         \
-    --mount=type=cache,uid=1000,gid=1000,target=${YARN_CACHE_FOLDER} \
+RUN --mount=type=cache,uid=1000,gid=1000,target=${YARN_CACHE_FOLDER} \
     yarn
 
 
@@ -27,6 +28,8 @@ ARG YARN_CACHE_FOLDER
 
 ENV YARN_CACHE_FOLDER="${YARN_CACHE_FOLDER}"
 
+RUN corepack enable \
+ && corepack prepare yarn@stable --activate
 
 RUN mkdir "${YARN_CACHE_FOLDER}"         \
  && chown node:node "${YARN_CACHE_FOLDER}"
@@ -56,6 +59,16 @@ VOLUME [ "src" ]
 
 
 
+FROM dev as test
+
+
+VOLUME [ "test" ]
+
+
+ENTRYPOINT [ "yarn" ]
+
+
+
 FROM build-env as prod
 
 
@@ -63,4 +76,4 @@ COPY --chown="node:node" src src
 
 
 ENTRYPOINT [ "node" ]
-CMD        [ "src/app.js" ]
+CMD        [ "--trace-warnings", "src/app.js" ]
