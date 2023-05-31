@@ -8,7 +8,7 @@ const router = new Router({
   prefix: "/users",
 });
 
-router.put("/me", async (ctx) => {
+router.put("/me/password", async (ctx) => {
   const credentials = validators.getValidatedCredentialsPayload(ctx);
   const {
     currentPassword,
@@ -22,6 +22,43 @@ router.put("/me", async (ctx) => {
     newPassword
   );
   ctx.status = 202;
+});
+
+
+router.put("/me/password/initial", async (ctx) => {
+  const credentials = validators.getValidatedInitialCredentialsPayload(ctx);
+  const {
+    initialPassword,
+  } = credentials;
+  const { userId } = authService.getUserFromAuthenticatedRequest(ctx);
+
+  if (await userService.userHasInitialPassword(userId)) {
+    console.log(`[/users] Changing initial password for user <${userId}>...`);
+
+    await userService.changeInitialPassword(
+      userId,
+      initialPassword
+    );
+    ctx.status = 202;
+
+  } else {
+    console.log(`[/users] Initial password already set for user <${userId}>...`);
+
+    ctx.status = 410;
+    ctx.body = {
+      statusCode: ctx.status,
+      message:    "Initial password already set",
+    };
+  }
+});
+
+
+router.get("/me/password/change-status", async (ctx) => {
+  const { userId } = authService.getUserFromAuthenticatedRequest(ctx);
+
+  ctx.body = {
+    isInitialPassword: await userService.userHasInitialPassword(userId),
+  };
 });
 
 
