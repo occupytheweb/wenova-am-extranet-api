@@ -121,6 +121,25 @@ const bulkCreate = (representations) => {
 };
 
 
+const saveOtpDetails = (
+  userId,
+  otp,
+  validUntil
+) => {
+  const query = SQL`
+    UPDATE users
+    SET
+      otp             = ${otp},
+      otp_valid_until = ${validUntil}
+    WHERE id_dist = ${userId}
+  `;
+
+  return db()
+    .query(query)
+  ;
+};
+
+
 module.exports = {
   userMapper,
   list,
@@ -129,4 +148,5 @@ module.exports = {
   updateUserPassword,
   searchMissingUsers,
   bulkCreate,
+  saveOtpDetails,
 };
