@@ -12,6 +12,8 @@ const userMapper = (dbRepresentation) => ({
   hashedPassword:   dbRepresentation.password_hash,
   creationTime:     dbRepresentation.creation_time,
   modificationTime: dbRepresentation.modification_time,
+  otp:              dbRepresentation.otp,
+  otpValidUntil:    dbRepresentation.otp_valid_until,
   ...(
     !!dbRepresentation.first_name
       ? { firstName: dbRepresentation.first_name }
