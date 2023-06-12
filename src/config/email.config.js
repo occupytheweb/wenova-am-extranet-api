@@ -2,12 +2,14 @@ const Joi = require("joi");
 
 const emailConfigPropertiesCandidate = {
   from:       process.env.EMAIL_FROM,
+  senderName: process.env.EMAIL_SENDER_NAME,
   clientId:   process.env.EMAIL_SERVICE_ACCOUNT_CLIENT_ID,
   privateKey: process.env.EMAIL_SERVICE_ACCOUNT_PRIVATE_KEY,
 };
 
 const emailConfigPropertiesSchema = Joi.object({
   from:       Joi.string().required(),
+  senderName: Joi.string().required(),
   clientId:   Joi.string().required(),
   privateKey: Joi.string().required(),
 });
