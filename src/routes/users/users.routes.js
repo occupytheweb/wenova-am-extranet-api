@@ -2,6 +2,7 @@ const Router = require("@koa/router");
 const validators  = require("./users.validators");
 const authService = require("../../services/auth.service");
 const userService = require("../../services/users.service");
+const forgotPasswordService = require("../../services/forgot-password.service");
 
 
 const router = new Router({
@@ -59,6 +60,15 @@ router.get("/me/password/change-status", async (ctx) => {
   ctx.body = {
     isInitialPassword: await userService.userHasInitialPassword(userId),
   };
+});
+
+
+router.put("/me/password/forgotten", async (ctx) => {
+  const { email } = validators.getValidatedForgotPasswordPayload(ctx);
+
+  console.debug(`[USERS] user '${email}' requested a forgot password link.`);
+
+  return forgotPasswordService.launchForgotPasswordProcessForUser(email);
 });
 
 

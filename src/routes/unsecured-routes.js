@@ -1,4 +1,7 @@
-const unsecuredRoutesPatterns = ["/auth/token"].map(
+const unsecuredRoutesPatterns = [
+  "/auth/token",
+  "/users/me/password/forgotten",
+].map(
   (pattern) => new RegExp(pattern)
 );
 
