@@ -38,6 +38,7 @@ const generateAndStoreOtpDetailsForUser = async (
 
 
 const generateForgotPasswordLink = (
+  baseUrl,
   email,
   otpDetails
 ) => {
@@ -51,15 +52,20 @@ const generateForgotPasswordLink = (
     .toString("base64")
   ;
 
-  return `https://partenaires.wenova-am.com/forgot-password.html?id=${encodedId}`;
+  return `${baseUrl}/forgot-password.html?id=${encodedId}`;
 };
 
 
 const generateForgotPasswordEmailMarkup = (
+  baseUrl,
   email,
   otpDetails
 ) => {
-  const forgotPasswordLink = generateForgotPasswordLink(email, otpDetails);
+  const forgotPasswordLink = generateForgotPasswordLink(
+    baseUrl,
+    email,
+    otpDetails
+  );
   const { otpValidityInMinutes } = passwordsConfigProperties;
 
   return `Lien de réinitialisation: ${forgotPasswordLink}.
@@ -83,7 +89,8 @@ const sendForgotPasswordEmail = async (
 
 
 const launchForgotPasswordProcessForUser = async (
-  email
+  email,
+  baseUrl
 ) => new Promise(
   (resolve) => {
     console.log(`[FORGOT-PASSWORD] launching process for user '${email}'...`);
@@ -94,6 +101,7 @@ const launchForgotPasswordProcessForUser = async (
 )
   .then(
     (otpDetails) => generateForgotPasswordEmailMarkup(
+      baseUrl,
       email,
       otpDetails
     )
