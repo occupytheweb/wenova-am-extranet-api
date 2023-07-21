@@ -63,10 +63,22 @@ router.get("/me/password/change-status", async (ctx) => {
 });
 
 
-router.put("/me/password/forgotten", async (ctx) => {
-  const { email } = validators.getValidatedForgotPasswordPayload(ctx);
+router.put("/:email/password/forgotten", async (ctx) => {
+  console.debug(`[USERS] sending mail`);
+  const { protocol, host, email } = validators.getValidatedForgotPasswordPayload(ctx);
 
-  console.debug(`[USERS] user '${email}' requested a forgot password link.`);
+  const baseUrl = `${protocol}//${host}`;
+  console.debug(`[USERS] user '${email}' requested a forgot password link from ${baseUrl}.`);
+
+  await forgotPasswordService.launchForgotPasswordProcessForUser(
+    email,
+    baseUrl,
+  );
+
+  ctx.status = 202;
+});
+
+
 
   return forgotPasswordService.launchForgotPasswordProcessForUser(email);
 });
