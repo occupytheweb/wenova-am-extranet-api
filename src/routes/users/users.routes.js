@@ -3,6 +3,7 @@ const validators  = require("./users.validators");
 const authService = require("../../services/auth.service");
 const userService = require("../../services/users.service");
 const forgotPasswordService = require("../../services/forgot-password.service");
+const distributors = require("../../resources/distributors.resource");
 
 
 const router = new Router({
@@ -72,15 +73,44 @@ router.put("/:email/password/forgotten", async (ctx) => {
 
   await forgotPasswordService.launchForgotPasswordProcessForUser(
     email,
-    baseUrl,
+    baseUrl
   );
 
   ctx.status = 202;
 });
 
 
+router.post("/:email/password/forgotten", async (ctx) => {
+  const {
+    email,
+    otp,
+    newPassword,
+  } = validators.getValidatedResetForgottenPasswordPayload(ctx);
 
-  return forgotPasswordService.launchForgotPasswordProcessForUser(email);
+  const userExists = await distributors.existsByEmail(email);
+  if (!userExists) {
+    ctx.status = 404;
+    ctx.body = {
+      reason: "USER_DOES_NOT_EXIST",
+    };
+  }
+
+  console.debug(`[USERS] user '${email}' is attempting to reset their password...`);
+
+  const otpValidity = await forgotPasswordService.getOtpValidity(email, otp);
+  if (!otpValidity.isValid) {
+    ctx.status = 400;
+    ctx.body = otpValidity;
+
+    return;
+  }
+
+  await forgotPasswordService.resetForgottenPassword(
+    email,
+    newPassword
+  );
+
+  ctx.status = 200;
 });
 
 
