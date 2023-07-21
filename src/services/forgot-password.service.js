@@ -1,14 +1,17 @@
 const { DateTime } = require("luxon");
-const crypto = require("crypto");
-const { passwordsConfigProperties } = require("../config");
-const mailer = require("./mailer.service");
+const crypto    = require("crypto");
+const {
+  passwordsConfigProperties,
+} = require("../config");
+const mailer         = require("./mailer.service");
 const userRepository = require("../repositories/users.repository");
+const passwords      = require("../utils/passwords");
 
 
 const generateAndStoreOtpDetailsForUser = async (
   email
 ) => {
-  console.debug(`[FORGOT-PASSWORD] Generating OTP details for yuser '${email}'...`);
+  console.debug(`[FORGOT-PASSWORD] Generating OTP details for user '${email}'...`);
 
   const otpLength = 8;
   const otp       = crypto
@@ -118,9 +121,51 @@ const launchForgotPasswordProcessForUser = async (
 
       return result;
     }
+  )
+;
+
+
+const otpValidityMessageMap = {
+  NO_OTP:      "Aucune demande de réinitialisation de mot de passe trouvé pour cet utilisateur",
+  OTP_INVALID: "Ce lien de réinitialisation est invalide",
+  OTP_EXPIRED: "Ce lien de réinitialisation de mot de passe a expiré",
+};
+
+
+const getOtpValidity = async (
+  email,
+  otp
+) => {
+  const validityResponse = (isValid, errorCode) => ({
+    isValid,
+    message: otpValidityMessageMap[errorCode],
+  });
+
+  const currentTime = DateTime.now();
+  const user        = await userRepository.findByEmail(email);
+
+  if (!user.otp) {
+    return validityResponse(false, "NO_OTP");
+  }
+
+  if (user.otp !== otp) {
+    return validityResponse(false, "OTP_INVALID");
+  }
+
+  const validUntil = DateTime.fromJSDate(
+    new Date(
+      user.otpValidUntil
+    )
   );
+  if (currentTime > validUntil) {
+    return validityResponse(false, "OTP_EXPIRED");
+  }
+
+  return validityResponse(true, "OTP_VALID");
+};
 
 
 module.exports = {
   launchForgotPasswordProcessForUser,
+  getOtpValidity,
 };
