@@ -63,12 +63,13 @@ const findByEmail = (email) => distributors
 const updateUserPassword = (userId, passwordHash) => db()
   .query(
     SQL`
-      UPDATE users
-         SET password_hash = ${passwordHash}
-       WHERE id_dist = ${userId}
-    `
-  )
-;
+        UPDATE users
+           SET password_hash   = ${passwordHash},
+               otp             = ${null}, 
+               otp_valid_until = ${null}
+         WHERE id_dist = ${userId}
+      `
+  );
 
 
 const searchMissingUsers = () => db()
