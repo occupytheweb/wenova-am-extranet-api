@@ -165,7 +165,27 @@ const getOtpValidity = async (
 };
 
 
+const resetForgottenPassword = (
+  email,
+  newPassword
+) => userRepository.findByEmail(email)
+  .then(
+    (user) => user.id
+  )
+  .then(
+    (userId) => passwords.hashPlaintextPassword(newPassword)
+      .then(
+        (hashedPassword) => userRepository.updateUserPassword(
+          userId,
+          hashedPassword
+        )
+      )
+  )
+;
+
+
 module.exports = {
+  resetForgottenPassword,
   launchForgotPasswordProcessForUser,
   getOtpValidity,
 };
