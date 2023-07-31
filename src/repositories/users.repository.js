@@ -12,6 +12,8 @@ const userMapper = (dbRepresentation) => ({
   hashedPassword:   dbRepresentation.password_hash,
   creationTime:     dbRepresentation.creation_time,
   modificationTime: dbRepresentation.modification_time,
+  otp:              dbRepresentation.otp,
+  otpValidUntil:    dbRepresentation.otp_valid_until,
   ...(
     !!dbRepresentation.first_name
       ? { firstName: dbRepresentation.first_name }
@@ -61,12 +63,13 @@ const findByEmail = (email) => distributors
 const updateUserPassword = (userId, passwordHash) => db()
   .query(
     SQL`
-      UPDATE users
-         SET password_hash = ${passwordHash}
-       WHERE id_dist = ${userId}
-    `
-  )
-;
+        UPDATE users
+           SET password_hash   = ${passwordHash},
+               otp             = ${null}, 
+               otp_valid_until = ${null}
+         WHERE id_dist = ${userId}
+      `
+  );
 
 
 const searchMissingUsers = () => db()
@@ -119,6 +122,25 @@ const bulkCreate = (representations) => {
 };
 
 
+const saveOtpDetails = (
+  userId,
+  otp,
+  validUntil
+) => {
+  const query = SQL`
+    UPDATE users
+    SET
+      otp             = ${otp},
+      otp_valid_until = ${validUntil}
+    WHERE id_dist = ${userId}
+  `;
+
+  return db()
+    .query(query)
+  ;
+};
+
+
 module.exports = {
   userMapper,
   list,
@@ -127,4 +149,5 @@ module.exports = {
   updateUserPassword,
   searchMissingUsers,
   bulkCreate,
+  saveOtpDetails,
 };

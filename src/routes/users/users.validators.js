@@ -37,7 +37,53 @@ const getValidatedInitialCredentialsPayload = (ctx) => {
 };
 
 
+const getValidatedForgotPasswordPayload = (ctx) => {
+  const { email }          = ctx.request.params;
+  const { protocol, host } = ctx.request.body;
+  const payload = {
+    protocol,
+    host,
+    email,
+  };
+
+  Joi.assert(
+    payload,
+    Joi.object({
+      protocol: Joi.string().required(),
+      host:     Joi.string().required(),
+      email:    Joi.string().required(),
+    })
+  );
+
+  return payload;
+};
+
+
+const getValidatedResetForgottenPasswordPayload = (ctx) => {
+  const { email }            = ctx.request.params;
+  const { otp, newPassword } = ctx.request.body;
+  const payload = {
+    email,
+    otp,
+    newPassword,
+  };
+
+  Joi.assert(
+    payload,
+    Joi.object({
+      email:       Joi.string().required(),
+      otp:         Joi.string().required(),
+      newPassword: Joi.string().required(),
+    })
+  );
+
+  return payload;
+};
+
+
 module.exports = {
   getValidatedCredentialsPayload,
   getValidatedInitialCredentialsPayload,
+  getValidatedForgotPasswordPayload,
+  getValidatedResetForgottenPasswordPayload,
 };

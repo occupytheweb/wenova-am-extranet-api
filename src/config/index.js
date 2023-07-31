@@ -1,5 +1,7 @@
 const { encodedJwtSigningKey } = require("./jwt.config");
 const { dbConnectionProperties } = require("./db.config");
+const { emailConnectionProperties } = require("./email.config");
+const { passwordsConfigProperties } = require("./passwords.config");
 
 
 const defaults = {
@@ -16,4 +18,6 @@ module.exports = {
   maxItemsPerPage,
   encodedJwtSigningKey,
   dbConnectionProperties,
+  emailConnectionProperties,
+  passwordsConfigProperties,
 };
