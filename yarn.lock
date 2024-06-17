@@ -2486,8 +2486,8 @@ __metadata:
     lint-staged: ^13.1.2
     luxon: ^3.3.0
     mocha: ^10.2.0
-    mysql2: ^3.2.0
-    njwt: ^2.0.0
+    mysql2: ^3.9.4
+    njwt: ^2.0.1
     nodemailer: ^6.9.9
     nodemon: ^2.0.20
     prettier: 2.8.4
@@ -4632,9 +4632,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mysql2@npm:^3.2.0":
-  version: 3.3.3
-  resolution: "mysql2@npm:3.3.3"
+"mysql2@npm:^3.9.4":
+  version: 3.10.1
+  resolution: "mysql2@npm:3.10.1"
   dependencies:
     denque: ^2.1.0
     generate-function: ^2.3.1
@@ -4644,7 +4644,7 @@ __metadata:
     named-placeholders: ^1.1.3
     seq-queue: ^0.0.5
     sqlstring: ^2.3.2
-  checksum: 99bf73dc685102a7ff543a6457c1717b235a6808488da940769a36dafc2d7068cfca737ffd6c158f157a836949db2852eb79471dd3d4985c043c43538ba57052
+  checksum: 293e1a76bfdbde146285ee7028336da7693b5dfb507a7c264216fdb3fe2088ba0f5d5a45a0a9e7c4de4f39c3f44edbe890fb05b28299d6c731fc2e4a281836e3
   languageName: node
   linkType: hard
 
@@ -4680,14 +4680,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"njwt@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "njwt@npm:2.0.0"
+"njwt@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "njwt@npm:2.0.1"
   dependencies:
     "@types/node": ^15.0.1
     ecdsa-sig-formatter: ^1.0.5
     uuid: ^8.3.2
-  checksum: 3c6c33b2fd044bca7468171f5dca064f5a4f59ce0e63b567df62c1a8d720e3c3d65921d5e99ae72eb22fde3285ef42b6009b4c4469f06e3a0e66d88a6f393373
+  checksum: e8e50ab3e4cf8a04d1d9948e4daa25ceb53a87afa451f86d1e1cd423d0963731d5daee7d3dacecc6e24a6b061c097bb6b0aa7058afe2e480ca1834329435e496
   languageName: node
   linkType: hard
 
