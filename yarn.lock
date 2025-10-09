@@ -2494,7 +2494,7 @@ __metadata:
     mocha: ^10.2.0
     mysql2: ^3.9.4
     njwt: ^2.0.0
-    nodemailer: ^6.9.9
+    nodemailer: ^7.0.7
     nodemon: ^2.0.20
     prettier: 2.8.4
     secure-random: ^1.1.2
@@ -4748,10 +4748,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nodemailer@npm:^6.9.9":
-  version: 6.9.9
-  resolution: "nodemailer@npm:6.9.9"
-  checksum: 9af862b497273796ad6ba7ca9eac23a7d69737554f6dd51cfd3557f60902c56344158192672f1208daf00340a47a9e1805bd809965edc191011b35dd98a74be1
+"nodemailer@npm:^7.0.7":
+  version: 7.0.9
+  resolution: "nodemailer@npm:7.0.9"
+  checksum: b912ad8bafcf6c58ccc5b158a5794f13e6178d8473d167078412ec2a6d90dac52125c9cc9c4722d6f05c91c7f20303ce885af4aa37b4ca10c99e763a58b9feb5
   languageName: node
   linkType: hard
 
